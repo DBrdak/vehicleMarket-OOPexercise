@@ -1,4 +1,5 @@
-﻿using Domain.Common;
+﻿using System.ComponentModel.DataAnnotations;
+using Domain.Common;
 using Domain.Common.Enums;
 using Domain.Common.Eventing;
 
@@ -14,6 +15,7 @@ namespace Domain.Core
         public int Mileage { get; }
         public Technicals Technicals { get; }
         public string City { get; }
+        [RegularExpression("^\\+\\d{1,3}\\d{9}$")]
         public string PhoneNumber { get; }
         public int Price { get; }
         public event BidDelegate Bid;
@@ -34,7 +36,7 @@ namespace Domain.Core
             PhoneNumber = phoneNumber;
             Price = price;
         }
-
+        
         public int CompareTo(Vehicle other)
         {
             if(other is null) 
@@ -48,7 +50,7 @@ namespace Domain.Core
             if(Bid is not null)
                 Bid(this, new BidEvent(amount));
             else
-                Console.WriteLine("");
+                Console.WriteLine("Error while making bid");
         }
     }
 }

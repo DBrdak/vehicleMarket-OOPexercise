@@ -10,12 +10,4 @@
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Core\" />
-    <Folder Include="Features\Commands\" />
-    <Folder Include="Features\Queries\" />
-    <Folder Include="Interfaces\" />
-    <Folder Include="Repositories\" />
-  </ItemGroup>
-
 </Project>
