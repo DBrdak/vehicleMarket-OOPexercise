@@ -2,7 +2,7 @@
 
 public enum CarType
 {
-    Hatchback = 0,
+    Hatchback,
     Sedan,
     EstateCar,
     SUV,

@@ -2,7 +2,7 @@
 
 public enum DrivingType
 {
-    Chain = 0,
+    Chain,
     Shaft,
     Belt
 }

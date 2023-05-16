@@ -12,22 +12,9 @@ namespace Domain.Core
             string phoneNumber, int price, DrivingType drive, MotorbikeType type) 
             : base(make, model, productionYear, mileage, power, cubicCapacity, fuelType, city, phoneNumber, price)
         {
-            Drive = drive;
-            Type = type;
+            (Drive, Type) = (drive, type);
         }
-
-        public static explicit operator Motorbike(string[] values)
-        {
-            var parseResult = Enum.TryParse(typeof(Fuel), values[6], true, out var fuel);
-            parseResult = Enum.TryParse(typeof(DrivingType), values[10], true, out var drive);
-            parseResult = Enum.TryParse(typeof(MotorbikeType), values[11], true, out var type);
-
-            if (parseResult is false)
-                return null;
-
-            return new(values[0], values[1], int.Parse(values[2]), int.Parse(values[3]),
-                int.Parse(values[4]), int.Parse(values[5]), (Fuel)fuel, values[7],
-                values[8], int.Parse(values[9]), (DrivingType)drive, (MotorbikeType)type);
-        }
+        public override string ToDetailedString() =>
+            base.ToDetailedString() + $"Rodzaj napędu: {Drive}\nTyp motocykla: {Type}";
     }
 }

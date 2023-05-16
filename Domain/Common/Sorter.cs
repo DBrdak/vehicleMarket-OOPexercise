@@ -30,7 +30,7 @@ namespace Domain.Common
                 if (y is null)
                     return 1;
 
-                return x.ProductionYear - y.ProductionYear;
+                return y.ProductionYear - x.ProductionYear;
             }
         }
         public class PriceSort : IComparer<Vehicle>
@@ -43,6 +43,19 @@ namespace Domain.Common
                     return 1;
 
                 return x.Price - y.Price;
+            }
+        }
+
+        public class MakeSort : IComparer<Vehicle>
+        {
+            public int Compare(Vehicle x, Vehicle y)
+            {
+                if (x is null)
+                    return -1;
+                if (y is null)
+                    return 1;
+
+                return String.CompareOrdinal(x.Make, y.Make);
             }
         }
     }

@@ -13,11 +13,14 @@ namespace Domain.Core
         public string Model { get; }
         public int ProductionYear { get; }
         public int Mileage { get; }
-        public Technicals Technicals { get; }
+        public int Power { get; }
+        public int CubicCapacity { get; }
+        public Fuel FuelType { get; }
         public string City { get; }
         [RegularExpression("^\\+\\d{1,3}\\d{9}$")]
         public string PhoneNumber { get; }
         public int Price { get; }
+
         public event BidDelegate Bid;
 
         protected Vehicle(string make, string model, int productionYear, int mileage, int power, 
@@ -25,24 +28,19 @@ namespace Domain.Core
         {
             if (id >= int.MaxValue)
                 id = 0;
+
             id++;
-            Id = id;
-            Make = make;
-            Model = model;
-            ProductionYear = productionYear;
-            Mileage = mileage;
-            Technicals = new Technicals(power, cubicCapacity, fuelType);
-            City = city;
-            PhoneNumber = phoneNumber;
-            Price = price;
+
+            (Id, Make, Model, ProductionYear, Mileage, Power, CubicCapacity, FuelType, City, PhoneNumber, Price) = 
+                (id, make, model, productionYear, mileage, power,cubicCapacity, fuelType, city, phoneNumber, price);
         }
-        
+
         public int CompareTo(Vehicle other)
         {
             if(other is null) 
                 return 1;
 
-            return this.Id.CompareTo(other);
+            return this.Id.CompareTo(other.Id);
         }
 
         public void OnBid(int amount)
@@ -52,5 +50,13 @@ namespace Domain.Core
             else
                 Console.WriteLine("Error while making bid");
         }
+
+        public override string ToString() =>
+            $"{$"({Id})",-7} {Make, -15} {Model, -20} {ProductionYear, -13} {Mileage, -12} {Price, -12}";
+
+        public virtual string ToDetailedString() =>
+            $"Marka: {Make}\nModel: {Model}\nRok produkcji: {ProductionYear}\nPrzebieg: {Mileage}km\n" +
+            $"Moc: {Power}KM\nPojemność skokowa: {CubicCapacity}ccm\nRodzaj paliwa: {FuelType}\n" +
+            $"Miasto: {City}\nNumer telefonu do sprzedającego: {PhoneNumber}\nCena: {Price}";
     }
 }

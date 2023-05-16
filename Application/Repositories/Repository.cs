@@ -3,21 +3,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Application.Core;
 using Application.Data;
 using Application.Interfaces;
+using Domain.Common;
+using Domain.Common.Enums.Querying;
 using Domain.Core;
 
 namespace Application.Repositories
 {
-    public class Repository<T> : IRepository<T> where T : Vehicle
+    public class Repository : IRepository
     {
-        private readonly List<Vehicle> _context = DataContext.Vehicles;
+        private static readonly List<Vehicle> _context = DataContext.Vehicles;
 
-        public List<Vehicle> GetList()
+        public List<Vehicle> GetList<T>(int pageNumber) where T : Vehicle => 
+            _context
+                .Where(v => v.GetType().IsSubclassOf(typeof(T)) || v.GetType() == typeof(T))
+                .Order().AtPage(pageNumber).ToList();
+
+        public List<Vehicle> GetList<T>(int pageNumber, IComparer<Vehicle> comparer = null, Order order = Order.ASC) where T : Vehicle
         {
-            return _context
-                .Where(v => v.GetType() == typeof(T))
-                .ToList();
+            var enumerable = _context
+                .Where(v => v.GetType().IsSubclassOf(typeof(T)) || v.GetType() == typeof(T))
+                .Order(comparer).AtPage(pageNumber).ToList();
+
+            return enumerable;
         }
 
         public Vehicle Get(int id)
@@ -30,7 +40,7 @@ namespace Application.Repositories
             return vehicle;
         }
 
-        public void AddNew(T vehicle) => _context.Add(vehicle);
+        public void AddNew<T>(T vehicle) where T : Vehicle => _context.Add(vehicle);
 
         public bool Delete(int id, string phoneNumber)
         {

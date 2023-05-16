@@ -15,23 +15,10 @@ namespace Domain.Core
             int price, int seats, int doors, string modelVersion, CarType type) 
             : base(make, model, productionYear, mileage, power, cubicCapacity, fuelType, city, phoneNumber, price)
         {
-            Seats = seats;
-            Doors = doors;
-            ModelVersion = modelVersion;
-            Type = type;
+            (Seats, Doors, ModelVersion, Type) = (seats, doors, modelVersion, type);
         }
-
-        public static explicit operator Car(string[] values)
-        {
-            var parseResult = Enum.TryParse(typeof(Fuel), values[6], true, out var fuel);
-            parseResult = Enum.TryParse(typeof(CarType), values[13], true, out var type);
-
-            if (parseResult is false)
-                return null;
-
-            return new(values[0], values[1], int.Parse(values[2]), int.Parse(values[3]),
-                int.Parse(values[4]), int.Parse(values[5]), (Fuel)fuel, values[7],
-                values[8], int.Parse(values[9]), int.Parse(values[10]), int.Parse(values[11]), values[12], (CarType)type);
-        }
+        public override string ToDetailedString() =>
+            base.ToDetailedString() + $"Liczba miejsc siedzących: {Seats}\n" +
+            $"Liczba drzwi: {Doors}\nWersja modelu: {ModelVersion}\nTyp nadwozia: {Type}";
     }
 }
