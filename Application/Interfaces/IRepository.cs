@@ -16,10 +16,10 @@ namespace Application.Interfaces
 
         Vehicle Get(int id);
 
-        void AddNew<T>(T vehicle) where T : Vehicle;
+        void AddNew<T>(string[] vehicle) where T : Vehicle;
 
         bool Delete(int id, string phoneNumber);
 
-        bool Bid(int id, int amount);
+        void Bid(Vehicle vehicle, int amount);
     }
 }

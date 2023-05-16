@@ -23,7 +23,8 @@ namespace Presentation.UIComponents
                     Console.WriteLine("(1) Samochody osobowe\n(2) Samochody ciężarowe\n(3) Motocykle");
                     var input = Console.ReadLine();
                     Console.Clear();
-                    MarketResultsUI.DisplayResults(1, input);
+                    MarketResultsUI.SetType(input);
+                    MarketResultsUI.DisplayResults();
                     break;
                 case "3":
                     Console.Clear();

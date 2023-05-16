@@ -1,4 +1,5 @@
-﻿using Domain.Common.Enums;
+﻿using Application.Core;
+using Domain.Common.Enums;
 using Microsoft.VisualBasic.CompilerServices;
 
 namespace Domain.Core
@@ -17,8 +18,9 @@ namespace Domain.Core
         {
             (Seats, Doors, ModelVersion, Type) = (seats, doors, modelVersion, type);
         }
+
         public override string ToDetailedString() =>
-            base.ToDetailedString() + $"Liczba miejsc siedzących: {Seats}\n" +
-            $"Liczba drzwi: {Doors}\nWersja modelu: {ModelVersion}\nTyp nadwozia: {Type}";
+            base.ToDetailedString() + $"\nLiczba miejsc siedzących: {Seats}\n" +
+            $"Liczba drzwi: {Doors}\nWersja modelu: {ModelVersion}\nTyp nadwozia: {Type.ToTranslatedString()}";
     }
 }

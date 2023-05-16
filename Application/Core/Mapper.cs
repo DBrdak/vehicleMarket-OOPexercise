@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Domain.Common;
@@ -15,15 +16,7 @@ namespace Application.Core
         {
             try
             {
-                var propList = typeof(T).GetProperties().ToList();
-                propList.Remove(propList.Single(p => p.Name == "Id"));
-
-                var props = propList.Skip(propList.FindIndex(p => p.Name == "Make")).ToArray();
-                var temp = propList.Take(propList.FindIndex(p => p.Name == "Make")).ToArray();
-                props = props.Concat(temp).ToArray();
-
-                for (int i = 10; i < temp.Length; i++)
-                    props[i] = temp[i];
+                var props = AdjustProperties(typeof(T));
 
                 var propTypes = new Type[props.Length];
                 var values = new object[rawValues.Length];
@@ -46,6 +39,23 @@ namespace Application.Core
                 Console.WriteLine($"Can't map values to object of type {typeof(T).Name}, reason: {e.Message}");
                 throw;
             }
+
+            
+        }
+
+        private static PropertyInfo[] AdjustProperties(Type type)
+        {
+            var propList = type.GetProperties().ToList();
+            propList.Remove(propList.Single(p => p.Name == "Id"));
+
+            var props = propList.Skip(propList.FindIndex(p => p.Name == "Make")).ToArray();
+            var temp = propList.Take(propList.FindIndex(p => p.Name == "Make")).ToArray();
+            props = props.Concat(temp).ToArray();
+
+            for (int i = 10; i < temp.Length; i++)
+                props[i] = temp[i];
+
+            return props;
         }
     }
 }

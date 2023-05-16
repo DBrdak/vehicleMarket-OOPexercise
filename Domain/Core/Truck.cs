@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Runtime.CompilerServices;
+using Application.Core;
 using Domain.Common.Enums;
 using Microsoft.VisualBasic.CompilerServices;
 
@@ -23,7 +24,7 @@ namespace Domain.Core
         }
 
         public override string ToDetailedString() =>
-            base.ToDetailedString() + $"Moment obrotowy: {Torque}Nm\n" +
-            $"DMC: {GVW}kg\nWymiary zabudowy: {LoadSizeCapacity}\nLiczba osi: {Axles}\nRodzaj zabudowy: {Type}";
+            base.ToDetailedString() + $"\nMoment obrotowy: {Torque}Nm\n" +
+            $"DMC: {GVW}kg\nWymiary zabudowy: {LoadSizeCapacity}\nLiczba osi: {Axles}\nRodzaj zabudowy: {Type.ToTranslatedString()}";
     }
 }

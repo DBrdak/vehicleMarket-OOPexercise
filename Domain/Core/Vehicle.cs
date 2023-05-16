@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Application.Core;
 using Domain.Common;
 using Domain.Common.Enums;
 using Domain.Common.Eventing;
@@ -19,7 +20,7 @@ namespace Domain.Core
         public string City { get; }
         [RegularExpression("^\\+\\d{1,3}\\d{9}$")]
         public string PhoneNumber { get; }
-        public int Price { get; }
+        public int Price { get; private set; }
 
         public event BidDelegate Bid;
 
@@ -45,10 +46,8 @@ namespace Domain.Core
 
         public void OnBid(int amount)
         {
-            if(Bid is not null)
-                Bid(this, new BidEvent(amount));
-            else
-                Console.WriteLine("Error while making bid");
+            Bid = new BidHandler().Handle;
+            Bid(this, new BidEvent(amount));
         }
 
         public override string ToString() =>
@@ -56,7 +55,9 @@ namespace Domain.Core
 
         public virtual string ToDetailedString() =>
             $"Marka: {Make}\nModel: {Model}\nRok produkcji: {ProductionYear}\nPrzebieg: {Mileage}km\n" +
-            $"Moc: {Power}KM\nPojemność skokowa: {CubicCapacity}ccm\nRodzaj paliwa: {FuelType}\n" +
+            $"Moc: {Power}KM\nPojemność skokowa: {CubicCapacity}ccm\nRodzaj paliwa: {FuelType.ToTranslatedString()}\n" +
             $"Miasto: {City}\nNumer telefonu do sprzedającego: {PhoneNumber}\nCena: {Price}";
+
+        public void IncrementPrice(int amount) => Price += amount;
     }
 }

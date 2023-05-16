@@ -16,15 +16,8 @@ namespace Domain.Common.Eventing
 
         public void Handle(Vehicle sender, BidEvent e)
         {
-            try
-            {
-                Console.WriteLine($"Oferta {_bidId} w wysokości {e.Amount} została złożona. Aktualnie cena pojazdu {sender.Id} wynosi {sender.Price}");
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine(exception.Message);
-                throw;
-            }
+            sender.IncrementPrice(e.Amount);
+            Console.WriteLine($"Oferta {_bidId} w wysokości {e.Amount} została złożona. Aktualnie cena pojazdu {sender.Id} wynosi {sender.Price}");
         }
     }
 }

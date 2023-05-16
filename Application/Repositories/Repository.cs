@@ -16,6 +16,11 @@ namespace Application.Repositories
     {
         private static readonly List<Vehicle> _context = DataContext.Vehicles;
 
+        public List<Vehicle> GetList<T>() where T : Vehicle =>
+            _context
+                .Where(v => v.GetType().IsSubclassOf(typeof(T)) || v.GetType() == typeof(T))
+                .Order().ToList();
+
         public List<Vehicle> GetList<T>(int pageNumber) where T : Vehicle => 
             _context
                 .Where(v => v.GetType().IsSubclassOf(typeof(T)) || v.GetType() == typeof(T))
@@ -40,7 +45,7 @@ namespace Application.Repositories
             return vehicle;
         }
 
-        public void AddNew<T>(T vehicle) where T : Vehicle => _context.Add(vehicle);
+        public void AddNew<T>(string[] vehicle) where T : Vehicle => _context.Add(vehicle.MapTo<T>());
 
         public bool Delete(int id, string phoneNumber)
         {
@@ -53,15 +58,6 @@ namespace Application.Repositories
             return true;
         }
 
-        public bool Bid(int id, int amount)
-        {
-            var vehicle = _context.FirstOrDefault(v => v.Id == id);
-
-            if (vehicle is null)
-                return false;
-
-            vehicle.OnBid(amount);
-            return true;
-        }
+        public void Bid(Vehicle vehicle, int amount) => vehicle.OnBid(amount);
     }
 }

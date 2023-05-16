@@ -28,7 +28,7 @@ namespace Application.Core
             return list.Where(p =>
             {
                 var prop = p.GetType().GetProperty(propFilter) ?? throw new ArgumentNullException("Wrong filer selected");
-                return prop.GetValue(p) == searchPhrase;
+                return (string)prop.GetValue(p) == searchPhrase;
             }).ToList();
         }
     }

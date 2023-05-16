@@ -1,4 +1,5 @@
-﻿using Domain.Common.Enums;
+﻿using Application.Core;
+using Domain.Common.Enums;
 
 namespace Domain.Core
 {
@@ -15,6 +16,6 @@ namespace Domain.Core
             (Drive, Type) = (drive, type);
         }
         public override string ToDetailedString() =>
-            base.ToDetailedString() + $"Rodzaj napędu: {Drive}\nTyp motocykla: {Type}";
+            base.ToDetailedString() + $"\nRodzaj napędu: {Drive.ToTranslatedString()}\nTyp motocykla: {Type.ToTranslatedString()}";
     }
 }

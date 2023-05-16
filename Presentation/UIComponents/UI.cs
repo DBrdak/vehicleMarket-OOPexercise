@@ -11,11 +11,11 @@ namespace Presentation.UIComponents
     public class UI
     {
         [RegularExpression("^\\+\\d{1,3}\\d{9}$")]
-        private readonly string _phoneNumber;
+        protected static string PhoneNumber;
 
         public UI()
         {
-            //_phoneNumber = SignIn();
+            PhoneNumber = SignIn();
             Console.Clear();
             DisplayMainPage();
         }
@@ -42,26 +42,26 @@ namespace Presentation.UIComponents
             }
         }
 
-        //private string SignIn()
-        //{
-        //    bool validationResult = true;
-        //    string input;
+        private string SignIn()
+        {
+            bool validationResult = true;
+            string input;
 
-        //    do
-        //    {
-        //        Console.Write("(Logowanie) Podaj numer telefonu [Format: +48555666777]: ");
-        //        input = Console.ReadLine();
-        //        validationResult = Regex.IsMatch(input, "^\\+\\d{1,3}\\d{9}$");
+            do
+            {
+                Console.Write("(Logowanie) Podaj numer telefonu [Format: +48555666777]: ");
+                input = Console.ReadLine();
+                validationResult = Regex.IsMatch(input, "^\\+\\d{1,3}\\d{9}$");
 
-        //        if (!validationResult)
-        //        {
-        //            DisplayError("Zły format");
-        //        }
+                if (!validationResult)
+                {
+                    DisplayError("Zły format");
+                }
 
-        //    } while (!validationResult);
+            } while (!validationResult);
 
-        //    return input;
-        //}
+            return input;
+        }
 
         protected static void DisplayError(string message)
         {

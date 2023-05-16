@@ -14,6 +14,9 @@ namespace Presentation
         static void Main(string[] args)
         {
             new UI();
+            
+            //TODO: Translate w stronę seta
+            //TODO: CommandUI
         }
     }
 }

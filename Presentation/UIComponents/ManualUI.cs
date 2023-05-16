@@ -11,7 +11,7 @@ namespace Presentation.UIComponents
         public static void DisplayManual()
         {
             var str = new StringBuilder();
-            str.AppendLine("Instrukcja");
+            DisplayNicely("Instrukcja", ConsoleColor.Yellow);
             str.AppendLine(
                 "* Aplikacja służy do wyszukiwania i licytowania pojazdów, zamieszczonych przez innych użytkowników");
             str.AppendLine(
@@ -20,6 +20,8 @@ namespace Presentation.UIComponents
                 "* Wyniki są paginowane, można je również sortować oraz filtrować");
             str.AppendLine(
                 "* Wartości wyświetlane w nawiasach mogą zostać wpisane przez użytkownika do konsoli w celu przejścia do innej sekcji");
+            str.AppendLine(
+                "* Zalecam zapoznać się z wartościami enum w Domain.Common.Enums przed przystąpieniem do dodawania nowych ogłoszeń");
 
             Console.WriteLine(str.ToString());
             Console.WriteLine("Kliknij dowolny przycisk aby wrócić do strony głównej");
