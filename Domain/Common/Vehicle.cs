@@ -1,10 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Application.Core;
-using Domain.Common;
 using Domain.Common.Enums;
 using Domain.Common.Eventing;
 
-namespace Domain.Core
+namespace Domain.Common
 {
     public abstract class Vehicle : Sorter, IComparable<Vehicle>
     {
@@ -24,7 +22,7 @@ namespace Domain.Core
 
         public event BidDelegate Bid;
 
-        protected Vehicle(string make, string model, int productionYear, int mileage, int power, 
+        protected Vehicle(string make, string model, int productionYear, int mileage, int power,
             int cubicCapacity, Fuel fuelType, string city, string phoneNumber, int price)
         {
             if (id >= int.MaxValue)
@@ -32,16 +30,16 @@ namespace Domain.Core
 
             id++;
 
-            (Id, Make, Model, ProductionYear, Mileage, Power, CubicCapacity, FuelType, City, PhoneNumber, Price) = 
-                (id, make, model, productionYear, mileage, power,cubicCapacity, fuelType, city, phoneNumber, price);
+            (Id, Make, Model, ProductionYear, Mileage, Power, CubicCapacity, FuelType, City, PhoneNumber, Price) =
+                (id, make, model, productionYear, mileage, power, cubicCapacity, fuelType, city, phoneNumber, price);
         }
 
         public int CompareTo(Vehicle other)
         {
-            if(other is null) 
+            if (other is null)
                 return 1;
 
-            return this.Id.CompareTo(other.Id);
+            return Id.CompareTo(other.Id);
         }
 
         public void OnBid(int amount)
@@ -51,7 +49,7 @@ namespace Domain.Core
         }
 
         public override string ToString() =>
-            $"{$"({Id})",-7} {Make, -15} {Model, -20} {ProductionYear, -13} {Mileage, -12} {Price, -12}";
+            $"{$"({Id})",-7} {Make,-15} {Model,-20} {ProductionYear,-13} {Mileage,-12} {Price,-12}";
 
         public virtual string ToDetailedString() =>
             $"Marka: {Make}\nModel: {Model}\nRok produkcji: {ProductionYear}\nPrzebieg: {Mileage}km\n" +

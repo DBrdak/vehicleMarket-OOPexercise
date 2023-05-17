@@ -1,8 +1,8 @@
-﻿using Application.Core;
+﻿using Domain.Common;
 using Domain.Common.Enums;
 using Microsoft.VisualBasic.CompilerServices;
 
-namespace Domain.Core
+namespace Domain.Car
 {
     public class Car : Vehicle
     {
@@ -11,9 +11,9 @@ namespace Domain.Core
         public string ModelVersion { get; }
         public CarType Type { get; }
 
-        public Car(string make, string model, int productionYear, int mileage, 
-            int power, int cubicCapacity, Fuel fuelType, string city, string phoneNumber, 
-            int price, int seats, int doors, string modelVersion, CarType type) 
+        public Car(string make, string model, int productionYear, int mileage,
+            int power, int cubicCapacity, Fuel fuelType, string city, string phoneNumber,
+            int price, int seats, int doors, string modelVersion, CarType type)
             : base(make, model, productionYear, mileage, power, cubicCapacity, fuelType, city, phoneNumber, price)
         {
             (Seats, Doors, ModelVersion, Type) = (seats, doors, modelVersion, type);

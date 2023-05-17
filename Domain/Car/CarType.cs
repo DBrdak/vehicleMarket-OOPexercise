@@ -1,6 +1,6 @@
 ﻿using Domain.Common.Attributes;
 
-namespace Domain.Common.Enums;
+namespace Domain.Car;
 
 public enum CarType
 {

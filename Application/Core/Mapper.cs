@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Domain.Common;
 using Domain.Common.Enums;
-using Domain.Core;
 
 namespace Application.Core
 {
@@ -39,8 +38,6 @@ namespace Application.Core
                 Console.WriteLine($"Can't map values to object of type {typeof(T).Name}, reason: {e.Message}");
                 throw;
             }
-
-            
         }
 
         private static PropertyInfo[] AdjustProperties(Type type)

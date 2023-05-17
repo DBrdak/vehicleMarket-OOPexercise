@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Common.Enums.Querying
+namespace Domain.Common.Enums
 {
     public enum Order
     {

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Domain.Common.Attributes;
 
-namespace Application.Core
+namespace Domain.Common.Enums
 {
     public static class EnumExtensions
     {
@@ -18,12 +18,13 @@ namespace Application.Core
             {
                 var attribute = field.GetCustomAttribute<TranslatedNameAttribute>();
 
-                if ((attribute == null && field.Name == value) || (attribute != null && attribute.Translate() == value))
+                if (attribute == null && field.Name == value || attribute != null && attribute.Translate() == value)
                     return field.Name;
             }
 
             return null;
         }
+
         public static string ToTranslatedString<T>(this T value) where T : Enum
         {
             var enumType = typeof(T);

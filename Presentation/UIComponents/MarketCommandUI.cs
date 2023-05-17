@@ -3,18 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Application.Core;
 using Application.Repositories;
+using Domain.Car;
 using Domain.Common;
 using Domain.Common.Enums;
 using Domain.Common.Eventing;
-using Domain.Core;
+using Domain.Motorbike;
+using Domain.Truck;
 
 namespace Presentation.UIComponents
 {
     public class MarketCommandUI : MarketUI
     {
-        private static Repository _repository = new ();
+        private static Repository _repository = new();
 
         public static void DisplayDeletionUI()
         {
@@ -29,6 +30,7 @@ namespace Presentation.UIComponents
                     Console.Clear();
                     DisplayMainPage();
                     break;
+
                 default:
                     try
                     {
@@ -47,28 +49,31 @@ namespace Presentation.UIComponents
 
         public static void DisplayCreationUI()
         {
-            DisplayNicely("Podaj informacje o pojeździe",ConsoleColor.Blue);
+            DisplayNicely("Podaj informacje o pojeździe", ConsoleColor.Blue);
             Console.WriteLine("Kategoria: (1) Samochód osobowy (2) Samochód ciężarowy (3) Motocykl");
             var category = Console.ReadLine();
             var values = new List<string>();
 
-            switch(category)
+            switch (category)
             {
                 case "1":
                     GetVehicleValues(values);
                     GetCarValues(values);
                     _repository.AddNew<Car>(values.ToArray());
                     break;
+
                 case "2":
                     GetVehicleValues(values);
                     GetTruckValues(values);
                     _repository.AddNew<Truck>(values.ToArray());
                     break;
+
                 case "3":
                     GetVehicleValues(values);
                     GetMotorbikeValues(values);
                     _repository.AddNew<Motorbike>(values.ToArray());
                     break;
+
                 default:
                     DisplayError("Wybrano złą wartość, proszę spróbować ponownie");
                     DisplayCreationUI();
@@ -86,6 +91,7 @@ namespace Presentation.UIComponents
                     Console.Clear();
                     DisplayMainPage();
                     break;
+
                 default:
                     DisplayCreationUI();
                     break;
@@ -154,7 +160,7 @@ namespace Presentation.UIComponents
             Console.WriteLine("Podaj kwotę o jaką chcesz podbić cenę:");
             var amount = int.Parse(Console.ReadLine());
             _repository.Bid(vehicle, amount);
-            
+
             Thread.Sleep(2500);
             Console.Clear();
             MarketResultsUI.DisplaySingle(vehicle);

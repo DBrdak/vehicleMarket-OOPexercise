@@ -7,8 +7,7 @@ using Application.Core;
 using Application.Data;
 using Application.Interfaces;
 using Domain.Common;
-using Domain.Common.Enums.Querying;
-using Domain.Core;
+using Domain.Common.Enums;
 
 namespace Application.Repositories
 {

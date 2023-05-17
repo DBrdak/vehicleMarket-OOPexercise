@@ -6,16 +6,17 @@ using System.Text;
 using System.Threading.Tasks;
 using Application.Core;
 using Application.Repositories;
+using Domain.Car;
 using Domain.Common;
-using Domain.Common.Enums.Querying;
-using Domain.Core;
+using Domain.Motorbike;
+using Domain.Truck;
 using Presentation.DisplayExtensions;
 
 namespace Presentation.UIComponents
 {
     public class MarketResultsUI : MarketUI
     {
-        private static readonly Repository _repository = new ();
+        private static readonly Repository _repository = new();
         private static List<Vehicle> _vehicles = new();
         private static IComparer<Vehicle> _sortOpt = null;
         private static string _filter = null;
@@ -39,7 +40,7 @@ namespace Presentation.UIComponents
         public static void DisplayResults(int pageNumber = 1)
         {
             Console.Clear();
-            DisplayNicely($"{"ID",-7} {"Marka",-15} {"Model", -20} {"Rok produkcji", -13} {"Przebieg", -12} {"Cena", -12}", ConsoleColor.Blue);
+            DisplayNicely($"{"ID",-7} {"Marka",-15} {"Model",-20} {"Rok produkcji",-13} {"Przebieg",-12} {"Cena",-12}", ConsoleColor.Blue);
 
             _vehicles = HandleCategoryChoice(T, pageNumber);
 
@@ -73,36 +74,43 @@ namespace Presentation.UIComponents
                     _filterValue = filterValue;
                     DisplayResults();
                     break;
+
                 case "2":
                     _filter = "City";
                     _filterValue = filterValue;
                     DisplayResults();
                     break;
+
                 case "3":
                     _filter = "Price";
                     _filterValue = filterValue;
                     DisplayResults();
                     break;
+
                 case "4":
                     _filter = "ProductionYear";
                     _filterValue = filterValue;
                     DisplayResults();
                     break;
+
                 case "5":
                     _filter = "Mileage";
                     _filterValue = filterValue;
                     DisplayResults();
                     break;
+
                 case "6":
                     _filter = "PhoneNumber";
-                    _filterValue = new []{PhoneNumber};
+                    _filterValue = new[] { PhoneNumber };
                     DisplayResults();
                     break;
+
                 case "7":
                     _filter = null;
                     _filterValue = null;
                     DisplayResults();
                     break;
+
                 default:
                     DisplayError("Wybrano złą wartość, proszę spróbować ponownie");
                     DisplayResults();
@@ -118,30 +126,37 @@ namespace Presentation.UIComponents
                     Console.Clear();
                     DisplayResults(pageNumber += 1);
                     break;
+
                 case ("<", _, true):
                     Console.Clear();
                     DisplayResults(pageNumber -= 1);
                     break;
+
                 case (">", false, _):
                     Console.Clear();
                     DisplayResults(pageNumber);
                     break;
+
                 case ("<", _, false):
                     Console.Clear();
                     DisplayResults(pageNumber);
                     break;
+
                 case ("s", _, _):
                     HandleSorting(searchType);
                     break;
+
                 case ("x", _, _):
                     Console.Clear();
                     Dispose();
                     DisplayMainPage();
                     break;
+
                 case ("f", _, _):
                     Console.Clear();
                     HandleFilter();
                     break;
+
                 default:
                     try
                     {
@@ -172,18 +187,22 @@ namespace Presentation.UIComponents
                     _sortOpt = new Sorter.MakeSort();
                     DisplayResults();
                     break;
+
                 case ("2"):
                     _sortOpt = new Sorter.AgeSort();
                     DisplayResults();
                     break;
+
                 case ("3"):
                     _sortOpt = new Sorter.MileageSort();
                     DisplayResults();
                     break;
+
                 case ("4"):
                     _sortOpt = new Sorter.PriceSort();
                     DisplayResults();
                     break;
+
                 default:
                     DisplayError("Wybrano złą wartość, proszę spróbować ponownie");
                     _sortOpt = null;
@@ -201,15 +220,19 @@ namespace Presentation.UIComponents
                 case "Vehicle":
                     list = _repository.GetList<Vehicle>(pageNumber, _sortOpt);
                     break;
+
                 case "2":
                     list = _repository.GetList<Truck>(pageNumber, _sortOpt);
                     break;
+
                 case "1":
                     list = _repository.GetList<Car>(pageNumber, _sortOpt);
                     break;
+
                 case "3":
                     list = _repository.GetList<Motorbike>(pageNumber, _sortOpt);
                     break;
+
                 default:
                     DisplayError("Wybrano złą wartość, proszę spróbować ponownie");
                     DisplayResults();
@@ -218,7 +241,7 @@ namespace Presentation.UIComponents
 
             if (_filter != null && _filterValue != null && _filterValue.Length == 2)
                 list = list.SetFilter(_filter, new Range(int.Parse(_filterValue[0]), int.Parse(_filterValue[1])));
-            else if(_filter != null && _filterValue != null && _filterValue.Length == 1)
+            else if (_filter != null && _filterValue != null && _filterValue.Length == 1)
                 list = list.SetFilter(_filter, _filterValue[0]);
 
             return list;
@@ -234,14 +257,17 @@ namespace Presentation.UIComponents
                 case (true, true):
                     Console.WriteLine(baseMessage);
                     break;
+
                 case (true, false):
                     Console.WriteLine("(>) Następna strona " + baseMessage);
                     nextPageAllowed = true;
                     break;
+
                 case (false, true):
                     Console.WriteLine("(<) Poprzednia strona " + baseMessage);
                     prevPageAllowed = true;
                     break;
+
                 case (false, false):
                     Console.WriteLine("(<) Poprzednia strona (>) Następna strona " + baseMessage);
                     prevPageAllowed = true;
@@ -249,7 +275,7 @@ namespace Presentation.UIComponents
                     break;
             }
 
-            return new [] {prevPageAllowed, nextPageAllowed};
+            return new[] { prevPageAllowed, nextPageAllowed };
         }
 
         public static void DisplaySingle(Vehicle vehicle)
@@ -257,7 +283,7 @@ namespace Presentation.UIComponents
             DisplaySplitedNicely(vehicle.ToDetailedString(), ConsoleColor.Blue);
             var bidAllowed = false;
 
-            if(PhoneNumber == vehicle.PhoneNumber)
+            if (PhoneNumber == vehicle.PhoneNumber)
                 Console.WriteLine("\n(2) Wróć do wyszukiwarki");
             else
             {
@@ -271,10 +297,12 @@ namespace Presentation.UIComponents
                     Console.Clear();
                     MarketCommandUI.DisplayBid(vehicle);
                     break;
+
                 case ("2", _):
                     Console.Clear();
                     DisplayResults();
                     break;
+
                 default:
                     DisplayError("Wybrano złą wartość, proszę spróbować ponownie");
                     DisplaySingle(vehicle);
@@ -289,6 +317,6 @@ namespace Presentation.UIComponents
             _filter = null;
             _filterValue = null;
             string T = nameof(Vehicle);
-    }
+        }
     }
 }
